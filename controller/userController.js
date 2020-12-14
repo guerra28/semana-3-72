@@ -45,3 +45,98 @@ exports.signin = async(req, res, next) => {
         next(error);
     }
 }
+
+exports.register = async(req, res, next) => {
+    try {
+
+        const user = await db.user.findOne({
+            where: {
+                email: req.body.email
+            }
+        });
+
+        if (user) {
+            res.status(409).send({
+                message: 'El email ya existe'
+            });
+        } else {
+            req.body.password = bcrypt.hashSync(req.body.password, 10);
+            const user = await db.user.create(req.body);
+            res.status(200).json(user);
+        }
+
+
+    } catch (error) {
+        res.status(500).send({
+            message: ' Error->'
+        });
+
+        next(error)
+    }
+}
+
+
+exports.listar = async(req, res, next) => {
+
+    try {
+
+        const user = await db.user.findAll();
+
+        if (user) {
+
+            res.status(200).json(user);
+
+        } else {
+            res.status(404).send({
+                message: 'Ususario no encontrado'
+            });
+
+        }
+
+
+    } catch (error) {
+        res.status(500).send({
+            message: 'Error->'
+        });
+        next(error);
+    }
+
+}
+
+exports.update = async(req, res, next) => {
+
+    try {
+
+        const user = await db.user.findOne({
+            where: {
+                email: req.body.email
+            }
+        });
+        if (user) {
+
+            const user = await db.user.update({
+                name: req.body.name
+            }, {
+                where: {
+                    email: req.body.email
+                }
+            });
+            res.status(200).json(user);
+
+        } else {
+
+            res.status(404).send({
+                message: 'Usuario no econtrado'
+            });
+
+        }
+
+    } catch (error) {
+        res.status(500).send({
+            message: 'Error->'
+        });
+        next(error)
+    }
+
+
+}

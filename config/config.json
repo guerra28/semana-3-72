@@ -7,8 +7,6 @@
         "host": "remotemysql.com",
         "dialect": "mysql"
 
-
-
     },
     "test": {
         "dialect": "sqlite",

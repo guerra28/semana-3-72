@@ -1,14 +1,16 @@
 const router = require('express').Router();
 const userController = require("../../controller/userController.js")
-const db = require("../../models")
+
 
 
 //api/auth
-router.get('/', (req, res) => {
-    db.user.findAll().then(users => res.json(users))
-});
+router.get('/list', userController.listar);
 
 //api/user/signin
-router.post("/signin", userController.signin)
+router.post("/signin", userController.signin);
+
+router.post("/register", userController.register);
+
+router.put("/update", userController.update);
 
 module.exports = router;
