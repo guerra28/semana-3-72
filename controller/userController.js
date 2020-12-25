@@ -107,11 +107,8 @@ exports.update = async(req, res, next) => {
 
     try {
 
-        const user = await db.user.findOne({
-            where: {
-                email: req.body.email
-            }
-        });
+        const user = await db.user.findOne({ where: { email: req.body.email } });
+
         if (user) {
 
             const user = await db.user.update({
